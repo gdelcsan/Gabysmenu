@@ -316,5 +316,46 @@
       }
     });
   </script>
+  <script>
+  const translations = {
+    en: {
+      heroTitle: "Heart of Palm & Plantain Moqueca",
+      chipForYou: "For you",
+      chipQuick: "Quick",
+      // add more keys for every text you want translated
+    },
+    es: {
+      heroTitle: "Moqueca de Palmito y Plátano",
+      chipForYou: "Para ti",
+      chipQuick: "Rápido",
+      // match same keys with Spanish versions
+    }
+  };
+
+  let currentLang = "en"; // default language
+
+  const toggleBtn = document.getElementById("lang-toggle");
+
+  toggleBtn.addEventListener("click", () => {
+    currentLang = currentLang === "en" ? "es" : "en"; 
+    toggleBtn.textContent = currentLang.toUpperCase(); 
+    applyTranslations();
+  });
+
+  function applyTranslations() {
+    document.getElementById("hero-title").textContent = translations[currentLang].heroTitle;
+    document.getElementById("chip-for-you").textContent = translations[currentLang].chipForYou;
+    document.getElementById("chip-quick").textContent = translations[currentLang].chipQuick;
+    // add more IDs as needed
+  }
+    
+  </script>
+  <h3 class="title" id="hero-title">Heart of Palm & Plantain Moqueca</h3>
+
+ <div class="chip-row">
+  <button class="chip active" id="chip-for-you">For you</button>
+  <button class="chip" id="chip-quick">Quick</button>
+ </div>
+
 </body>
 </html>
