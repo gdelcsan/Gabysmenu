@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Creme — Recipes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0b0b0d;         /* page background */
+      --panel: #131316;      /* cards & header */
+      --soft: #1b1b1f;       /* subtle surfaces */
+      --text: #f5f6f7;       /* primary text */
+      --muted: #b5b8c0;      /* secondary text */
+      --brand: #ffd166;      /* accent */
+      --chip: #1b1c20;       /* filter chips */
+      --chip-border: #2a2b30;
+      --good: #a7f3d0;
+      --shadow: 0 8px 24px rgba(0,0,0,.35), 0 2px 6px rgba(0,0,0,.25);
+      --radius: 16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text); background:linear-gradient(180deg,#0b0b0d 0%, #0e0e12 100%);
+    }
+    a{color:inherit; text-decoration:none}
+
+    /* ===== Layout ===== */
+    .app{
+      display:grid; grid-template-columns: 88px 1fr; grid-template-rows: 72px 1fr; gap:0;
+      min-height:100dvh;
+    }
+    .sidebar{
+      grid-row:1 / span 2; grid-column:1; background:var(--soft); border-right:1px solid #202128; position:sticky; top:0; height:100dvh; padding:18px 12px; display:flex; flex-direction:column; align-items:center; gap:12px;
+    }
+    .logo{font-weight:800; font-size:18px; letter-spacing:.5px; background:linear-gradient(135deg,#fff, #ffd166); -webkit-background-clip:text; background-clip:text; color:transparent}
+    .side-nav{display:flex; flex-direction:column; gap:8px; margin-top:8px}
+    .side-btn{
+      width:52px; height:52px; border-radius:14px; background:#17181d; border:1px solid #22242c; display:grid; place-items:center; cursor:pointer; transition:.2s transform, .2s background, .2s border-color; box-shadow: var(--shadow);
+    }
+    .side-btn:hover{transform:translateY(-1px); background:#1b1c22; border-color:#2b2e38}
+    .side-btn.active{outline:2px solid #ffd16655; background:#1c1d23}
+    .side-spacer{flex:1}
+    .side-small{font-size:11px; color:#868a93}
+
+    header.top{
+      grid-column:2; grid-row:1; position:sticky; top:0; z-index:10; backdrop-filter:saturate(120%) blur(10px);
+      background:linear-gradient(180deg, rgba(10,10,12,.9), rgba(10,10,12,.65)); border-bottom:1px solid #1e2027;
+    }
+    .bar{display:flex; align-items:center; gap:14px; padding:14px 20px}
+    .search{
+      flex:1; display:flex; align-items:center; gap:10px; background:var(--panel); border:1px solid #23242b; border-radius:999px; padding:10px 14px;
+    }
+    .search input{flex:1; background:transparent; color:var(--text); border:0; outline:none; font-size:14px}
+    .chip-row{display:flex; gap:10px; overflow:auto; padding:8px 20px 16px; scrollbar-width:none}
+    .chip-row::-webkit-scrollbar{display:none}
+    .chip{
+      display:inline-flex; align-items:center; gap:8px; padding:8px 12px; background:var(--chip); border:1px solid var(--chip-border); color:#d6d8de; border-radius:999px; font-size:13px; white-space:nowrap; cursor:pointer; transition:.2s background, .2s transform, .2s border-color;
+    }
+    .chip:hover{background:#22242a; border-color:#343740}
+    .chip.active{background:#262832; border-color:#ffd16644; color:#fff}
+    .avatar{width:28px; height:28px; border-radius:50%; background:#2c2e36}
+    .cta{padding:10px 14px; border-radius:999px; border:1px solid #2b2d36; background:#171820; font-weight:600}
+
+    main{
+      grid-column:2; grid-row:2; padding:22px; display:flex; flex-direction:column; gap:22px;
+    }
+
+    /* ===== Card grid ===== */
+    .grid{display:grid; grid-template-columns: repeat(12, 1fr); gap:18px}
+    .card{position:relative; background:var(--panel); border:1px solid #22242c; border-radius:18px; overflow:hidden; box-shadow:var(--shadow); min-height:180px; display:flex; flex-direction:column}
+    .card .media{aspect-ratio: 4 / 3; background:#0f1116; display:block; width:100%; object-fit:cover}
+    .card .body{padding:14px}
+    .title{font-weight:700; letter-spacing:.2px}
+    .meta{display:flex; gap:12px; color:#a9acb4; font-size:12px; margin-top:6px}
+    .pill{padding:4px 8px; border-radius:999px; font-size:11px; background:#20222a; border:1px solid #2a2d36}
+
+    .featured{grid-column: span 4}
+    .tall{grid-row: span 2}
+
+    /* First large hero */
+    .hero{grid-column: span 4; position:relative; overflow:hidden}
+    .hero .media{aspect-ratio: 4 / 3}
+    .hero .overlay{position:absolute; inset:auto 0 0 0; padding:16px; background:linear-gradient(180deg, transparent 0%, rgba(0,0,0,.75) 80%)}
+    .badge{position:absolute; top:12px; left:12px; background:#0f1116dd; border:1px solid #2a2b32; backdrop-filter: blur(6px); color:#fff; padding:6px 8px; font-size:12px; border-radius:10px}
+
+    /* small round preview thumbnails under header */
+    .preview-row{display:flex; gap:12px; overflow:auto; padding:0 20px 6px}
+    .preview{width:48px; height:48px; border-radius:999px; overflow:hidden; border:2px solid #23262e; background:#15161b; flex: 0 0 auto}
+    .preview img{width:100%; height:100%; object-fit:cover}
+
+    /* ===== Utilities ===== */
+    .icon{width:22px; height:22px; opacity:.9}
+    .icon.xs{width:18px; height:18px}
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1200px){
+      .featured, .hero{grid-column: span 6}
+      .app{grid-template-columns:72px 1fr}
+    }
+    @media (max-width: 900px){
+      .app{grid-template-columns:64px 1fr}
+      .grid{grid-template-columns: repeat(8, 1fr)}
+      .featured, .hero{grid-column: span 8}
+    }
+    @media (max-width: 640px){
+      .sidebar{display:none}
+      .app{grid-template-columns:1fr}
+      .grid{grid-template-columns: repeat(6, 1fr)}
+      .featured, .hero{grid-column: span 6}
+      .bar{padding:12px}
+      main{padding:12px}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- ===== Sidebar ===== -->
+    <aside class="sidebar">
+      <div class="logo">CRE·ME</div>
+      <div class="side-nav">
+        <button class="side-btn active" title="Home" aria-label="Home">🏠</button>
+        <button class="side-btn" title="Search" aria-label="Search">🔎</button>
+        <button class="side-btn" title="The App" aria-label="The App">📱</button>
+        <button class="side-btn" title="Collections" aria-label="Collections">📚</button>
+      </div>
+      <div class="side-spacer"></div>
+      <div class="side-small">EN</div>
+    </aside>
+
+    <!-- ===== Header ===== -->
+    <header class="top">
+      <div class="bar">
+        <div class="search" role="search">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M20 20L17 17"/></svg>
+          <input placeholder="What's cooking?" />
+          <div class="pill" aria-hidden>⌘K</div>
+        </div>
+        <button class="cta">App Store</button>
+        <button class="cta">Google Play</button>
+        <div class="avatar" title="Profile"></div>
+      </div>
+      <div class="chip-row" aria-label="Filters">
+        <button class="chip active">For you</button>
+        <button class="chip">Quick</button>
+        <button class="chip">10 or less</button>
+        <button class="chip">Few ingredients</button>
+        <button class="chip">Breakfast</button>
+        <button class="chip">Lunch</button>
+        <button class="chip">Dinner</button>
+        <button class="chip">Snacks</button>
+        <button class="chip">Vegetarian</button>
+        <button class="chip">Vegan</button>
+        <button class="chip">Dessert</button>
+        <button class="chip">Plant‑forward</button>
+      </div>
+      <div class="preview-row" aria-hidden>
+        <!-- little round previews to emulate the inspiration UI -->
+        <div class="preview"><img src="https://images.unsplash.com/photo-1601050690297-0890c7d98f9e?q=80&w=400&auto=format&fit=crop" alt="thumb"/></div>
+        <div class="preview"><img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?q=80&w=400&auto=format&fit=crop" alt="thumb"/></div>
+        <div class="preview"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=400&auto=format&fit=crop" alt="thumb"/></div>
+        <div class="preview"><img src="https://images.unsplash.com/photo-1526312426976-593c2ebcce75?q=80&w=400&auto=format&fit=crop" alt="thumb"/></div>
+        <div class="preview"><img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?q=80&w=400&auto=format&fit=crop" alt="thumb"/></div>
+        <div class="preview"><img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=400&auto=format&fit=crop" alt="thumb"/></div>
+        <div class="preview"><img src="https://images.unsplash.com/photo-1617191518009-7f1c45774f9b?q=80&w=400&auto=format&fit=crop" alt="thumb"/></div>
+      </div>
+    </header>
+
+    <!-- ===== Content ===== -->
+    <main>
+      <section class="grid">
+        <!-- HERO / Featured left card -->
+        <article class="card hero tall">
+          <span class="badge">CREAMY</span>
+          <img class="media" src="https://images.unsplash.com/photo-1526318472351-c75fcf070305?q=80&w=1400&auto=format&fit=crop" alt="Heart of Palm & Plantain Moqueca"/>
+          <div class="overlay">
+            <h3 class="title">Heart of Palm & Plantain Moqueca</h3>
+            <div class="meta">
+              <span class="pill">Level: Basic</span>
+              <span class="pill">Overall: 30m</span>
+              <span class="pill">Ready: 9:53am</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Regular cards -->
+        <article class="card featured">
+          <img class="media" src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?q=80&w=1200&auto=format&fit=crop" alt="Quick Takuan"/>
+          <div class="body">
+            <div class="meta" style="margin-bottom:6px"><span class="pill">NEW</span><span class="pill">14+</span></div>
+            <div class="title">Quick Takuan</div>
+            <div class="meta"><span>Prep 15m</span></div>
+          </div>
+        </article>
+
+        <article class="card featured">
+          <img class="media" src="https://images.unsplash.com/photo-1473091534298-04dcbce3278c?q=80&w=1200&auto=format&fit=crop" alt="Blue Cheese Dressing"/>
+          <div class="body">
+            <div class="meta" style="margin-bottom:6px"><span class="pill">NEW</span><span class="pill">15m</span></div>
+            <div class="title">Blue Cheese Dressing</div>
+            <div class="meta"><span>Dip • Salad</span></div>
+          </div>
+        </article>
+
+        <article class="card featured">
+          <img class="media" src="https://images.unsplash.com/photo-1543332164-6e82f355bad8?q=80&w=1200&auto=format&fit=crop" alt="Roasted Lamb"/>
+          <div class="body">
+            <div class="meta" style="margin-bottom:6px"><span class="pill">NEW</span><span class="pill">5h+</span></div>
+            <div class="title">Roasted Lamb Shoulder & Potato</div>
+            <div class="meta"><span>Oven • Family</span></div>
+          </div>
+        </article>
+
+        <article class="card featured">
+          <img class="media" src="https://images.unsplash.com/photo-1561089489-f13d5e730d72?q=80&w=1200&auto=format&fit=crop" alt="Egg‑Filled Pancake"/>
+          <div class="body">
+            <div class="meta" style="margin-bottom:6px"><span class="pill">NEW</span><span class="pill">21m</span></div>
+            <div class="title">Egg‑Filled Pancake</div>
+            <div class="meta"><span>Breakfast</span></div>
+          </div>
+        </article>
+
+        <article class="card featured">
+          <img class="media" src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?q=80&w=1200&auto=format&fit=crop" alt="Salmon Tartare"/>
+          <div class="body">
+            <div class="meta" style="margin-bottom:6px"><span class="pill">NEW</span><span class="pill">30m</span></div>
+            <div class="title">Salmon Tartare</div>
+            <div class="meta"><span>Seafood • Fresh</span></div>
+          </div>
+        </article>
+
+        <article class="card featured">
+          <img class="media" src="https://images.unsplash.com/photo-1604908554027-0e08ff6f7cf3?q=80&w=1200&auto=format&fit=crop" alt="Panettone"/>
+          <div class="body">
+            <div class="meta" style="margin-bottom:6px"><span class="pill">NEW</span><span class="pill">1d+</span></div>
+            <div class="title">Panettone</div>
+            <div class="meta"><span>Dessert</span></div>
+          </div>
+        </article>
+
+        <article class="card featured">
+          <img class="media" src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1200&auto=format&fit=crop" alt="Grilled Cabbage"/>
+          <div class="body">
+            <div class="meta" style="margin-bottom:6px"><span class="pill">NEW</span><span class="pill">1h+</span></div>
+            <div class="title">Grilled Cabbage, Seaweed & Strawberries</div>
+            <div class="meta"><span>Vegetarian</span></div>
+          </div>
+        </article>
+
+        <article class="card featured">
+          <img class="media" src="https://images.unsplash.com/photo-1582101031075-b0a91a8a43b6?q=80&w=1200&auto=format&fit=crop" alt="Frozen Margarita"/>
+          <div class="body">
+            <div class="meta" style="margin-bottom:6px"><span class="pill">NEW</span><span class="pill">5m</span></div>
+            <div class="title">Frozen Margarita</div>
+            <div class="meta"><span>Cocktail</span></div>
+          </div>
+        </article>
+
+        <!-- Add a few more generic cards to fill grid -->
+        <article class="card featured">
+          <img class="media" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop" alt="Pasta"/>
+          <div class="body">
+            <div class="meta" style="margin-bottom:6px"><span class="pill">POPULAR</span><span class="pill">30m</span></div>
+            <div class="title">Tomato Basil Pasta</div>
+            <div class="meta"><span>Dinner</span></div>
+          </div>
+        </article>
+
+        <article class="card featured">
+          <img class="media" src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop" alt="Salad"/>
+          <div class="body">
+            <div class="meta" style="margin-bottom:6px"><span class="pill">VEGAN</span><span class="pill">15m</span></div>
+            <div class="title">Super Green Salad</div>
+            <div class="meta"><span>Lunch</span></div>
+          </div>
+        </article>
+
+        <article class="card featured">
+          <img class="media" src="https://images.unsplash.com/photo-1526312426976-593c2ebcce75?q=80&w=1200&auto=format&fit=crop" alt="Soup"/>
+          <div class="body">
+            <div class="meta" style="margin-bottom:6px"><span class="pill">COZY</span><span class="pill">45m</span></div>
+            <div class="title">Miso Mushroom Soup</div>
+            <div class="meta"><span>Dinner</span></div>
+          </div>
+        </article>
+
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Small interactions: toggle active chip, fake search command palette
+    const chips = document.querySelectorAll('.chip');
+    chips.forEach(c => c.addEventListener('click', () => {
+      chips.forEach(x => x.classList.remove('active')); c.classList.add('active');
+    }));
+
+    const input = document.querySelector('.search input');
+    input.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k'){
+        e.preventDefault();
+        alert('Pretend command palette opens here.');
+      }
+    });
+  </script>
+</body>
+</html>
