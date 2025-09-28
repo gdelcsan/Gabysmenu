@@ -153,16 +153,12 @@
         <div class="chip-row">
         <button class="chip active" id="chip-for-you">For you</button>
         <button class="chip" id="chip-quick">Quick</button>
-        <button class="chip">10 or less</button>
-        <button class="chip">Few ingredients</button>
-        <button class="chip">Breakfast</button>
-        <button class="chip">Lunch</button>
-        <button class="chip">Dinner</button>
-        <button class="chip">Snacks</button>
-        <button class="chip">Vegetarian</button>
-        <button class="chip">Vegan</button>
-        <button class="chip">Dessert</button>
-        <button class="chip">Plant‑forward</button>
+        <button class="chip" id="chip-few-ingredients">Few ingredients</button>
+        <button class="chip" id="chip-meals">Meals</button>
+        <button class="chip" id="chip-cuban">Cuban</button>
+        <button class="chip" id="chip-meat">Meat</button>
+        <button class="chip" id="chip-seafood">Seafood</button>
+        <button class="chip" id="chip-baking">Baking</button>
       </div>
     </header>
 
@@ -333,6 +329,12 @@
     document.getElementById("hero-title").textContent = translations[currentLang].heroTitle;
     document.getElementById("chip-for-you").textContent = translations[currentLang].chipForYou;
     document.getElementById("chip-quick").textContent = translations[currentLang].chipQuick;
+    document.getElementById("chip-few-ingredients").textContent = translations[currentLang].chipFewIngredients;
+    document.getElementById("chip-meals").textContent = translations[currentLang].chipMeals;
+    document.getElementById("chip-cuban").textContent = translations[currentLang].chipCuban;
+    document.getElementById("chip-meat").textContent = translations[currentLang].chipMeat;
+    document.getElementById("chip-seafood").textContent = translations[currentLang].chipSeafood;
+    document.getElementById("chip-baking").textContent = translations[currentLang].chipBaking;
     // add more IDs as needed
   }
     
