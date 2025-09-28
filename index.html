@@ -149,13 +149,10 @@
           <input placeholder="What's cooking?" />
           <div class="pill" aria-hidden>⌘K</div>
         </div>
-        <button class="cta">App Store</button>
-        <button class="cta">Google Play</button>
-        <div class="avatar" title="Profile"></div>
-      </div>
-      <div class="chip-row" aria-label="Filters">
-        <button class="chip active">For you</button>
-        <button class="chip">Quick</button>
+        <div class="chip-row" aria-label="Filters">
+        <div class="chip-row">
+        <button class="chip active" id="chip-for-you">For you</button>
+        <button class="chip" id="chip-quick">Quick</button>
         <button class="chip">10 or less</button>
         <button class="chip">Few ingredients</button>
         <button class="chip">Breakfast</button>
@@ -177,7 +174,7 @@
           <span class="badge">CREAMY</span>
           <img class="media" src="https://images.unsplash.com/photo-1526318472351-c75fcf070305?q=80&w=1400&auto=format&fit=crop" alt="Heart of Palm & Plantain Moqueca"/>
           <div class="overlay">
-            <h3 class="title">Heart of Palm & Plantain Moqueca</h3>
+            <h3 class="title" id="hero-title">Heart of Palm & Plantain Moqueca</h3>
             <div class="meta">
               <span class="pill">Level: Basic</span>
               <span class="pill">Overall: 30m</span>
@@ -340,12 +337,6 @@
   }
     
   </script>
-  <h3 class="title" id="hero-title">Heart of Palm & Plantain Moqueca</h3>
-
- <div class="chip-row">
-  <button class="chip active" id="chip-for-you">For you</button>
-  <button class="chip" id="chip-quick">Quick</button>
- </div>
 
 </body>
 </html>
