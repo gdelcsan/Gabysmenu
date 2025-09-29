@@ -190,7 +190,7 @@
           <img class="media" src="./guavapie.png" alt="Guava Pie"/>
           <div class="body">
             <div class="meta" style="margin-bottom:6px"><span class="pill">Level: Med</span><span class="pill">14m</span></div>
-            <div class="title">Guava Pie</div>
+            <div class="title" id="chip-GuavaPie">Guava Pie</div>
             <div class="meta"><span>Baking</span></div>
           </div>
         </article>
@@ -319,6 +319,8 @@
       chipFewIngredients: "Few Ingredients",
       chipHome: "Home",
       chipRecipes: "Recipes",
+      chipGuavaPie: "Guava Pie",
+        
       // add more keys for every text you want translated
     },
     es: {
@@ -333,6 +335,7 @@
       chipFewIngredients: "Pocos ingredientes",
       chipHome: "Inicio",
       chipRecipes: "Recetas",
+      chipGuavaPie: "Pie de Guayaba",
       
       // match same keys with Spanish versions
     }
@@ -360,6 +363,7 @@
     document.getElementById("chip-baking").textContent = translations[currentLang].chipBaking;
     document.getElementById("chip-home").textContent = translations[currentLang].chipHome;
     document.getElementById("chip-recipes").textContent = translations[currentLang].chipRecipes;
+    document.getElementById("chip-guavapie").textContent = translations[currentLang].chipGuavaPie;
     // add more IDs as needed
   }
     
