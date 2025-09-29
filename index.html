@@ -51,6 +51,17 @@
       grid-column:2; grid-row:1; position:sticky; top:0; z-index:10; backdrop-filter:saturate(120%) blur(10px);
       background:linear-gradient(180deg, rgba(10,10,12,.9), rgba(10,10,12,.65)); border-bottom:1px solid #1e2027;
     }
+    .transparent-button {
+      background-color: transparent; /* Makes the button's background fully transparent */
+      border: 1px solid #ccc; /* Optional: Adds a subtle border for definition */
+      color: #333; /* Sets the text color to be visible */
+      padding: 10px 20px; /* Adjust padding as needed */
+      font-size: 16px; /* Adjust font size as needed */
+      cursor: pointer; /* Changes the cursor to a pointer on hover */
+  }
+    .transparent-button:hover {
+      background-color: rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle hover effect */
+  }
     .bar{display:flex; align-items:center; gap:14px; padding:14px 20px}
     .search{
       flex:1; display:flex; align-items:center; gap:10px; background:var(--panel); border:1px solid #23242b; border-radius:999px; padding:10px 14px;
@@ -134,7 +145,7 @@
           <li class="navbar-item">
             <button class="navbar-link  active" data-nav-link>Videos</button>
           </li>
-        <button class="side-btn" title="Home" aria-label="Home">Home</button>
+        <button class="transparent-button">Home</button>
         <button class="side-btn" title="Recipes" aria-label="Recipes">Recipes</button>
         <button class="side-btn" title="Videos" aria-label="Videos">Videos</button>
         
