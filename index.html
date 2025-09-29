@@ -134,22 +134,9 @@
     <aside class="sidebar">
       <div class="logo">Gaby's Menu</div>
       <div class="side-nav">
-        <ul class="navbar-list">
-
-          <li class="navbar-item">
-            <button class="navbar-link  active" data-nav-link>Home</button>
-          </li>
-          <li class="navbar-item">
-            <button class="navbar-link  active" data-nav-link>Search</button>
-          </li>
-          <li class="navbar-item">
-            <button class="navbar-link  active" data-nav-link>Videos</button>
-          </li>
-        <button class="transparent-button">Home</button>
-        <button class="side-btn" title="Recipes" aria-label="Recipes">Recipes</button>
-        <button class="side-btn" title="Videos" aria-label="Videos">Videos</button>
-        
-      </ul>
+        <button class="transparent-button" id="chip-home">Home</button>
+        <button class="transparent-button" id="chip-recipes">Recipes</button>
+        <button class="transparent-button">Videos</button>
         
       </div>
       <ul class="social-list">
@@ -334,6 +321,8 @@
       chipCuban: "Cuban",
       chipBaking: "Baking",
       chipFewIngredients: "Few Ingredients",
+      chipHome: "Home",
+      chipRecipes: "Recipes",
       // add more keys for every text you want translated
     },
     es: {
@@ -346,6 +335,8 @@
       chipCuban: "Cubano",
       chipBaking: "Horniar",
       chipFewIngredients: "Pocos ingredientes",
+      chipHome: "Inicio",
+      chipRecipes: "Recetas",
       
       // match same keys with Spanish versions
     }
@@ -371,6 +362,8 @@
     document.getElementById("chip-meat").textContent = translations[currentLang].chipMeat;
     document.getElementById("chip-seafood").textContent = translations[currentLang].chipSeafood;
     document.getElementById("chip-baking").textContent = translations[currentLang].chipBaking;
+    document.getElementById("chip-home").textContent = translations[currentLang].chipHome;
+    document.getElementById("chip-recipes").textContent = translations[currentLang].chipRecipes;
     // add more IDs as needed
   }
     
